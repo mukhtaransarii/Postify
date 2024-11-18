@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <link rel="stylesheet" href="/css/profileUpdate.css">
+</head>
+<body>
+   <div class="profile-container">
+        <form action="/<%= user.username %>/update/<%= user._id %>?_method=PATCH" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <input type="hidden" name="_method" value="PATCH">
+            
+            <!-- Profile Picture Section -->
+            <div class="profile-pic-wrapper">
+                <img src="<%= user.pfp || '/images/default.png' %>" id="profile-pic">
+                <label for="profile-pic-input" class="upload-button">+</label>
+                <input type="file" id="profile-pic-input" name="pfp" accept="image/*" onchange="previewImage(event)">
+            </div>
+            
+            <!-- Name Field -->
+            <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" value="<%= user.name %>" required>
+            </div>
+    
+            <!-- Username Field -->
+            <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" oninput="checkAvailability('username')" placeholder="Enter your username" value="<%= user.username %>" required>
+             <span id="usernameError"></span>
+            </div>
+    
+            <!-- Bio Field -->
+            <div>
+            <label for="bio">Bio</label>
+            <textarea id="bio" name="bio" placeholder="Write something about yourself" rows="4" required><%= user.bio %></textarea>
+            </div>
+    
+            <!-- Submit Button -->
+            <button type="submit" class="update-button">Update Profile</button>
+        </form>
+   </div>
+
+    <script>
+        // Function to preview the uploaded profile picture
+        function previewImage(event) {
+            const image = document.getElementById('profile-pic');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
+        
+        let usernameExists = false;
+
+        // Function to check username availability
+        async function checkAvailability(type) {
+            const value = document.getElementById(type).value.trim().replace(/\s+/g, ''); // Remove spaces from the username
+            const errorElement = document.getElementById('usernameError'); // Select the error element
+            
+            // Check if the value is empty
+            if (!value) {
+                errorElement.textContent = '';
+                usernameExists = false;
+                return;
+            }
+            
+            // Update the input field to remove spaces visually
+            document.getElementById(type).value = value;
+        
+            // Send the AJAX request to check availability
+            const response = await fetch('/check-availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ [type]: value })
+            });
+            const data = await response.json();
+        
+            // Handle the response
+            if (type === 'username') {
+                usernameExists = data.usernameExists;
+                errorElement.textContent = usernameExists ? 'Username is already taken' : '';
+            }
+        }
+
+        
+        
+        // Added validateForm function
+        function validateForm() {
+            if (usernameExists) {
+                alert('Please fix the errors before submitting.');
+                return false;
+            }
+            return true;
+        }
+        
+    </script>
+</body>
+</html>

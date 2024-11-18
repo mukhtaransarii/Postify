@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Post</title>
+    <link rel="stylesheet" href="/css/addPost.css">
+</head>
+<body>
+     <%- include('navbarAbsolute') %>
+     
+     <h2 id="createPostH2">Create Post</h2>
+     <hr>
+    
+     <div class="POSTHEADER">
+       <div class="userInfo">
+            <img src="<%=currentUser.pfp%>" style="width: 40px; height: 40px; border-radius: 50%">
+            <div class="names">
+               <p><%=currentUser.name%>
+                 
+               </p>
+               <span><%=currentUser.username%></span>
+            </div>
+       </div>
+       
+       <div class="UPLOAD-DIV">
+          <label for="upload-btn"><img src="/icon/image-upload.png" style="width: 25px; height: 25px; margin-top: 6px"></label>
+          <button id="submitBtn">Share</button>
+       </div>
+    </div>
+    
+    <form id="postForm" method="POST" enctype="multipart/form-data">
+       <input type="file" id="upload-btn" name="imageUrl" accept="image/*" style="display: none">
+       <div id="img-div">
+         <img src="" id="preview" style="border-radius: 10px">
+       </div>
+       <div>
+          <textarea name="title" id="autoExpand" placeholder="Write Something Here"></textarea>
+       </div>
+    </form>
+    
+    
+    <script>
+        // Textarea Height Expend
+        const textarea = document.getElementById('autoExpand');
+
+        textarea.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+        
+    
+        // Image Preview
+        const fileInput = document.getElementById('upload-btn');
+        const preview = document.getElementById('preview');
+        
+        fileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+        
+        
+        // Form Submit Method Bcz Submit Button is Outside of Form
+        const form = document.getElementById('postForm');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        submitBtn.addEventListener('click', function () {
+            form.submit();
+        });
+    </script>
+</body>
+</html>
+ 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/css/followingStats.css">
+  <title>Following Stats</title>
+</head>
+<body>
+     <%- include('navbarAbsolute') %>
+     
+     <div class="container">
+        <!-- Top buttons to toggle between Followers and Following -->
+        <div class="toggle-buttons">
+          <button id="followersBtn" onclick="window.location='/<%=user.username%>/followers'">Followers</button>
+          <button id="followingBtn" onclick="window.location='/<%=user.username%>/following'">Following</button>
+        </div>
+        
+        <div id="followersList" class="list active">
+          <% following.map(follower => { %>
+            <li class="user-item">
+              <img src="<%= follower.pfp %>" alt="Profile Picture" class="profile-pic">
+              <div class="user-info">
+                <span class="name"><%= follower.name %></span>
+                <span class="username">@<%= follower.username %></span>
+              </div> 
+                 <% if(currentUser._id == _id) { %>
+                    <form action="/follow/<%=follower._id%>/remove-following" method="POST">
+                      <button type="submit" class="following-btn">Following</button>
+                    </form>
+                 <% } %>
+            </li>
+          <% }) %>
+        </div>
+     </div>
+
+</body>
+</html>

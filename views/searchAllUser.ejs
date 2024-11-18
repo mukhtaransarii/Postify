@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/searchAllUser.css">
+  <title>Search Users</title>
+</head>
+<body>
+   <%- include('navbarAbsolute') %>
+      
+      
+  <h2 id="searchNav">Search Users</h2>
+  <div id="inputContainer">
+    <img src="/icon/search-2-line.svg">
+    <input type="text" id="searchInput" placeholder="Search by name or username..." oninput="searchUsers()">
+     <span id="resultsLength">0/<%=totalUser.length%></span>
+  </div>
+ 
+ 
+  <ul id="results"></ul>
+
+
+
+
+
+  <script>
+    const username = '<%=currentUser.username%>'
+    const totalUser = '<%=totalUser.length%>'
+   
+    async function searchUsers() {
+      const query = document.getElementById('searchInput').value.trim();
+      const resultsContainer = document.getElementById('results');
+
+      if (query.length === 0) {
+        resultsContainer.innerHTML = '';
+        document.getElementById('resultsLength').textContent = `${0}/${totalUser}`;
+        return;
+      }
+
+    
+      const response = await fetch(`/${username}/search/results?q=${encodeURIComponent(query)}`);
+      const users = await response.json();
+      document.getElementById('resultsLength').textContent = `${users.length}/${totalUser}`;
+      
+      resultsContainer.innerHTML = users.map(user => `
+        <li onclick="location.href='/${user.username}'">
+          <img src="${user.pfp}" alt="${user.name}'s profile picture">
+          <div>
+            <strong>${user.name}</strong><br>
+            <span>@${user.username}
+              ${user.isVerified ? `<img src="/icon/blueTick.png" style="width: 17px; height: 17px;">` : ``}
+            </span>
+          </div>
+        </li>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

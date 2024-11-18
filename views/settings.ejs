@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/settings.css">
+  <title>Settings</title>
+</head>
+<body>
+    <ul>
+      <li><i class="fa-solid fa-shield-alt"></i> Privacy and Security</li>
+      <li><i class="fa-solid fa-lock"></i> Lock Account</li>
+      <li><i class="fa-solid fa-key"></i> Change Password</li>
+      <li><i class="fa-solid fa-fingerprint"></i> Fingerprint Authentication</li>
+      <hr>
+      <li onclick="logout()" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</i>
+      <li id="deleteAccount"><i class="fa-solid fa-trash"></i> Delete Account</i>
+    </ul>
+   
+    
+   <script>
+        function logout() {
+          window.location = '/<%=currentUser.username%>/logout'
+          setTimeout(() => {
+            window.location.reload();
+          }, 200);
+        }
+      
+</script> 
+
+</body>
+</html>

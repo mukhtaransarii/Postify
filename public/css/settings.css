@@ -1,0 +1,42 @@
+font-face{
+  font-family: RGFONT;
+  src: url(../font/NeueMontreal-Regular.woff);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-color: #f5f5f5;
+    font-family: RGFONT;
+}
+
+ul{
+  width: 100%;
+}
+
+ul li{
+ display: flex;
+ align-items: center;
+ padding: 20px 20px;
+ background-color: white;
+ gap: 5px;
+}
+
+ul #logout{
+  color: red;
+}
+
+ul #deleteAccount{
+  color: #666;
+}
+
+
+ul li i{
+  width: 25px;
+}
+

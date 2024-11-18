@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+<body>
+    <%- include('navbarAbsolute') %>
+
+    <ul id="all-post-ul-container">
+         <% post.map(item => { %>
+            <div id="<%=item._id%>" class="POSTMAINCONTAINER"> 
+              <!-- 1 -->         
+              <div class="POSTHEADER">
+                 <div class="userInfo">
+                      <img src="<%=user.pfp%>" style="width: 40px; height: 40px; border-radius: 50%">
+                      <div class="names">
+                         <p><%=user.username%>
+                          <% if (user.isVerified) { %>
+                            <img src="/icon/blueTick.png" style="width: 17px">
+                          <% } %>
+                         </p>
+                         <span><%=item.createdAtFormatted%></span>
+                      </div>
+                 </div>
+                 <div class="POSTDELETBUTTON">
+                    <% if (currentUser._id == item.createdBy) { %>
+                        <form action="/<%=currentUser.username%>/delete/<%=item._id%>" method="post" onsubmit="return confirm('Are you sure you want to delete this post?')")>
+                           <button type="submit" id="postDeleteBtn">•••</button>
+                        </form>
+                    <% } %>
+                 </div>
+              </div>
+              
+              <!-- 2 -->      
+              <div class="titleAndImagePost">
+                <img src="<%= item.imageUrl%>">
+                
+                 <div class="post-actions">
+                    <div id="like-btn-<%= item._id %>" class="like-btn" onclick="toggleLike('<%= item._id %>', '<%= currentUser._id %>')">
+                      <i class="<%= item.likes.includes(currentUser._id) ? 'fa fa-heart redHeart' : 'fa-regular fa-heart' %>" id="like-logo-<%= item._id %>"></i>
+                      <span id="like-count-<%= item._id %>"><%= item.likes.length %></span>
+                    </div>
+                    <div id="comment-btn-<%= item._id %>" onclick="commentShowToggle('<%=item._id%>')">
+                      <i class="fa-regular fa-comment"></i>
+                      <span id="length-<%=item._id%>"><%=item.comments.length%></span>
+                    </div>
+                </div>
+                
+                <p><%- item.title.replace(/\n/g, '<br>') %></p>
+              </div>
+              
+              <!-- 3 -->        
+              <div class="COMENTCONTAINER" id="comments-<%=item._id%>">
+                  <ul class="ALLCOMMENTS" id="comments-section-<%= item._id %>">
+                    <% item.comments.forEach(comment => { %>
+                      <li id="comment-<%= comment._id %>"> 
+                         <div>
+                            <img src="<%= comment.commentedBy.pfp %>" style="height:35px; width:35px; border-radius:50%">
+                            <div>
+                              <strong><%= comment.commentedBy.username %>
+                                 <% if (comment.commentedBy.isVerified) { %>
+                                    <img src="/icon/blueTick.png" style="width: 17px">
+                                 <% } %>
+                                 <span style="font-size:10px; font-weight:500; color: #888;"><%=comment.createdAtFormatted%></span>
+                              </strong>
+                              <p><%= comment.text %></p>
+                            </div>
+                         </div>
+                         <% if (currentUser._id == item.createdBy || currentUser._id == comment.commentedBy._id) { %>
+                             <button onclick="deleteComment('<%= comment._id %>')" id="postDeleteBtn">•••</button>
+                         <% } %>
+                      </li>
+                    <% }) %>
+                  </ul>
+                  
+                  <div class="commentSendFrom">
+                    <input type="text" id="textComment"  placeholder="Write Comment..." required>
+                    <button onclick="commentPush('<%=currentUser._id%>', '<%=item._id%>')">Send</button>
+                 </div>
+                  
+              </div>
+            </div>
+         <% }) %> 
+     </ul>
+</body>
+</html>

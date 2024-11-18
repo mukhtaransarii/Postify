@@ -1,0 +1,362 @@
+@font-face{
+  font-family: RGFONT;
+  src: url(../font/NeueMontreal-Regular.woff);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin-bottom: 50px;
+    background-color: #f5f5f5;
+    font-family: RGFONT;
+}
+nav{
+  display: flex;
+  justify-content: end;
+  gap: 20px;
+  align-items: center;
+  background-color: #fff;
+  padding: 5px 20px;
+}
+nav img:hover{
+  color: #1da1f2;
+}
+.noteInputForm{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0px 20px;
+  background: #fff;
+  border: 0.5px solid #444;
+  border-radius: 8px;
+  height: 0px;
+  visibility: hidden;
+}
+.formShow{
+  height: auto;
+  visibility: visible;
+}
+.noteInputForm textarea{
+  flex-grow: 1;
+  outline: none;
+  background: transparent;
+  border: none;
+  padding: 10px 0px;
+  font-family: RGFONT;
+}
+
+.profile-card {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    text-align: left;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-info {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+
+.profile-info h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 1.2em;
+}
+
+.handle {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: #555;
+}
+.posts-info {
+    color: #000;
+    font-size: 0.9em;
+    margin: 10px 0px;
+    display: flex;
+    gap: 5px;
+}
+.posts-info span{
+  padding: 3px 6px;
+  background: #f0f0f0;
+  border-radius: 5px;
+  color: #888;
+  font-size: 0.8em;
+}
+
+.more-options {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.bio {
+    font-size: 0.80em;
+    color: #222;
+}
+#noteContainer{
+  margin-top: 10px;
+  padding: 5px 6px;
+  background: #f0f0f0;
+  border-radius: 5px;
+  color: #888;
+  font-size: 0.8em;
+}
+#noteContainer div{
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#noteContainer div form button{
+  background: transparent;
+  border: none;
+  color: #888;
+}
+#noteContainer div span{
+  font-size: 0.7em;
+  font-weight: 700;
+}
+#noteContainer div i{
+  font-size: 0.8em;
+}
+#noteContainer p{
+  color: #1da1f2;
+}
+
+.followers {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.createPost-btn, .editProfile-btn , #follow-btn{
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.noteAdd-btn{
+    background: #000;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.createPost-btn, #follow-btn {
+    background-color: #000;
+    color: #fff;
+}
+
+#follow-btn.following {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+
+.editProfile-btn {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.createPost-btn:hover {
+    background-color: #333;
+}
+
+.editProfile-btn:hover {
+    background-color: #e0e0e0;
+}
+
+
+
+
+/* FOR POST RENDER */
+hr{
+  border: none;
+  height: 1px;
+  background-color: #f0f0f0;
+}
+#PostsNav{
+  background: #fff;
+  padding: 10px 20px;
+  font-size: 0.85em;
+}
+#all-post-ul-container{
+  width: 100%;
+  background-color: #f2f2f2;
+  display: grid;
+  gap: 10px;
+}
+
+.POSTMAINCONTAINER{
+  width: 100%;
+  background: #fff;
+}
+
+.POSTHEADER{
+  padding: 10px 10px;
+  background: #fff;
+  display:  flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.POSTHEADER .userInfo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.userInfo img{
+  object-fit: cover;
+}
+.names{
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.names p{
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.names span{
+  font-size: 10px;
+}
+.POSTDELETBUTTON{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#postDeleteBtn{
+  border: none;
+  background: transparent;
+  transform: rotate(90deg);
+}
+.titleAndImagePost{
+  
+}
+.titleAndImagePost img{
+  width: 100%;          
+}
+.titleAndImagePost p{
+  padding: 10px 10px;
+}
+
+/* Container for the action buttons */
+.post-actions {
+    display: flex;
+    gap: 30px;
+    padding: 3px 10px;
+    background-color: #fff;
+}
+
+.post-actions>div{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-actions>div>i {
+    font-size: 25px;
+}
+.post-actions>div>span {
+    font-size: 12px;
+}
+.redHeart{
+  color: red;
+}
+
+
+.COMENTCONTAINER{
+  padding: 10px;
+  background: #fff;
+  width: 100%;
+  display: none;
+}
+.commentShow{
+  display: block;
+}
+.ALLCOMMENTS{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ALLCOMMENTS>li{
+  list-style: none;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ALLCOMMENTS>li>div{
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+.ALLCOMMENTS>li>div>img{
+  object-fit: cover;
+}
+.ALLCOMMENTS>li>div>div>strong{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+
+.COMENTCONTAINER .commentSendFrom{
+  background-color: #FFF;
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  border-top: 0.5px solid #000;
+  overflow: hidden;
+  margin-top: 15px;
+}
+.COMENTCONTAINER .commentSendFrom input{
+  height: 40px;
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+.COMENTCONTAINER .commentSendFrom button{
+  height: 40px;
+  padding: 10px;
+  background: white;
+  border: none;
+  cursor: pointer;
+}

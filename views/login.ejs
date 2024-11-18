@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/css/signup.css">
+  <title>Login</title>
+</head>
+<body>
+  <div class="signup-container">
+        <form method="POST" class="form-container" onsubmit="return validateForm()">
+            <h2 class="form-title">Login</h2>
+          
+            <!-- userame Input -->
+            <div class="form-group">
+                <label for="username">userame</label>
+                <input type="text" id="username" name="username" oninput="removeSpaces(this)" placeholder="Enter your username" required>
+            </div>
+            
+            <!-- Password Input -->
+            <label for="password">Password</label>
+            <div class="form-group password-field">
+                <input type="password" id="password" name="password" oninput="errorRemove()" placeholder="Enter your Password" required>
+                <span class="toggle-password" onclick="togglePassword()">
+                    <i id="eye-icon" class="fas fa-eye"></i>
+                </span>
+            </div>
+            <% if (error) { %>
+            <p id="emailError"><%= error %></p>
+            <% } %>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Login</button>
+            
+            <!-- Login Link -->
+            <p class="login-link">I don't have an Account. <a href="/signup">Signup</a></p>
+        </form>
+    </div>
+    
+    <script>
+       function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye'); 
+                eyeIcon.classList.add('fa-eye-slash')
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash')
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+        
+       // Function to remove spaces in username input
+       function removeSpaces(input) {
+           input.value = input.value.replace(/\s+/g, ''); // Remove all spaces
+       }
+       
+      
+    </script>
+</body>
+</html>

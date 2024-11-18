@@ -1,0 +1,70 @@
+
+  font-face{
+    font-family: RGFONT;
+    src: url(../font/NeueMontreal-Regular.woff);
+  }
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: RGFONT;
+  }
+  body {
+      height: 100vh;
+      background-color: #f5f5f5;
+  }
+  #searchNav{
+    padding: 10px 20px;
+    background: #fff;
+  }
+  #inputContainer{
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  #inputContainer img{
+    width: 20px;
+  }
+  #inputContainer input{
+    flex-grow: 1;
+    height: 30px;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+  #inputContainer span{
+    font-size: 12px;
+    font-weight: 500;
+  }
+  #results {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 0.5px;
+  }
+  #results li {
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    background: white;
+  }
+  #results li div span{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 13px;
+  }
+  #results img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  #results li:hover {
+    background-color: #f1f1f1;
+  }
