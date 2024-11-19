@@ -1,0 +1,181 @@
+@font-face{
+  font-family: RGFONT;
+  src: url(../font/NeueMontreal-Regular.woff);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: calc(100vh-50px);
+    margin-bottom: 50px;
+    background-color: #f5f5f5;
+    font-family: RGFONT;
+}
+
+/*Following Posts*/
+hr{
+  border: none;
+  height: 1px;
+  background-color: #f0f0f0;
+}
+#PostsNav{
+  background: #fff;
+  padding: 10px 20px;
+  font-size: 0.85em;
+}
+
+/*FOR POST*/
+#all-post-ul-container{
+  width: 100%;
+  background-color: #f2f2f2;
+  display: grid;
+  gap: 10px;
+}
+
+.POSTMAINCONTAINER{
+  width: 100%;
+  background: #fff;
+}
+
+.POSTHEADER{
+  padding: 10px 10px;
+  background: #fff;
+  display:  flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.POSTHEADER .userInfo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.userInfo img{
+  object-fit: cover;
+}
+.names{
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.names p{
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.names span{
+  font-size: 10px;
+}
+.POSTDELETBUTTON{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#postDeleteBtn{
+  border: none;
+  background: transparent;
+  transform: rotate(90deg);
+}
+.titleAndImagePost{
+  
+}
+.titleAndImagePost img{
+  width: 100%;          
+}
+.titleAndImagePost p{
+  padding: 10px 10px;
+}
+
+/* Container for the action buttons */
+.post-actions {
+    display: flex;
+    gap: 30px;
+    padding: 3px 10px;
+    background-color: #fff;
+}
+
+.post-actions>div{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-actions>div>i {
+    font-size: 25px;
+}
+.post-actions>div>span {
+    font-size: 12px;
+}
+.redHeart{
+  color: red;
+}
+
+
+.COMENTCONTAINER{
+  padding: 10px;
+  background: #fff;
+  width: 100%;
+  display: none;
+}
+.commentShow{
+  display: block;
+}
+.ALLCOMMENTS{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ALLCOMMENTS>li{
+  list-style: none;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ALLCOMMENTS>li>div{
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+.ALLCOMMENTS>li>div>img{
+  object-fit: cover;
+}
+.ALLCOMMENTS>li>div>div>strong{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+
+.COMENTCONTAINER .commentSendFrom{
+  background-color: #FFF;
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  border-top: 0.5px solid #000;
+  overflow: hidden;
+  margin-top: 15px;
+}
+.COMENTCONTAINER .commentSendFrom input{
+  height: 40px;
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+.COMENTCONTAINER .commentSendFrom button{
+  height: 40px;
+  padding: 10px;
+  background: white;
+  border: none;
+  cursor: pointer;
+}

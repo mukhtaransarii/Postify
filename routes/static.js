@@ -8,10 +8,28 @@ const { validateToken } = require('../service/auth.js')
 
 // Home Route
 router.get('/',protectRoute, async (req, res) => {
-  const currentUser = req.user
-  const post = await Post.find({ createdBy: { $in: currentUser.following } });
-  console.log('post following by : ', post)
- 
+
+  
+  const currentUser = await User.findOne({_id: req.user._id})
+  let post = await Post.find({ createdBy: { $in: currentUser.following } })
+      .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+      .populate('createdBy', 'username pfp name isVerified _id')
+      .populate('comments.commentedBy', 'username pfp name isVerified _id')
+      .lean();
+  
+
+  post.forEach(post => {
+    post.createdAtFormatted = moment(post.createdAt).fromNow();
+  
+    post.comments.forEach(comment => {
+      comment.createdAtFormatted = moment(comment.createdAt).fromNow();
+    });
+  });
+  
+  console.log('following post', post)
+  console.log('following user', currentUser.following)
+  console.log('following user', currentUser)
+  
   res.render('home', {currentUser, post})
 })
 

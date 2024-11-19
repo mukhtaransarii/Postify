@@ -9,7 +9,8 @@
 </head>
 <body>
     <%- include('navbarAbsolute') %>
-  
+  <div id="profileWrapper">
+    <div id="toast" class="toast"></div>
     <nav>
       <% if (currentUser._id == user._id) { %>
         <img onclick="noteFormToggle()"  src="/icon/sticky-note-add-line.svg" style="width: 20px; height: 20px">
@@ -68,7 +69,9 @@
             <% } %>
         </div>
     </div>
-    
+ </div>
+ 
+ <div id="postWrapper">
     <hr>
     <div id="PostsNav">
       <h2>Posts</h2>
@@ -125,7 +128,7 @@
               <div class="COMENTCONTAINER" id="comments-<%=item._id%>">
                   <ul class="ALLCOMMENTS" id="comments-section-<%= item._id %>">
                     <% item.comments.forEach(comment => { %>
-                      <li id="comment-<%= comment._id %>"> 
+                      <li id="comment-<%= comment._id %>" onclick="location.href='/<%=comment.commentedBy.username%>'"> 
                          <div>
                             <img src="<%= comment.commentedBy.pfp %>" style="height:35px; width:35px; border-radius:50%">
                             <div>
@@ -146,7 +149,7 @@
                   </ul>
                   
                   <div class="commentSendFrom">
-                    <input type="text" id="textComment"  placeholder="Write Comment..." required>
+                    <input type="text" id="textComment-<%=item._id%>"  placeholder="Write Comment..." required>
                     <button onclick="commentPush('<%=currentUser._id%>', '<%=item._id%>')">Send</button>
                  </div>
                   
@@ -154,9 +157,26 @@
             </div>
          <% }) %> 
      </ul>
-    
+  </div>
     
    <script>
+        // Check for a success message in the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        
+        if (message) {
+          // Show the toast with the message
+          const toast = document.getElementById('toast');
+          toast.textContent = message;
+          toast.classList.add('show');
+          
+          // Hide the toast after 3 seconds
+          setTimeout(() => {
+            toast.classList.remove('show');
+          }, 3000);
+        }
+        
+        
         const textarea = document.getElementById('autoExpand');
 
         textarea.addEventListener('input', function () {
@@ -217,7 +237,7 @@
         
         
         async function commentPush(userId, postId) {
-        const textInput = document.getElementById('textComment');
+        const textInput = document.getElementById(`textComment-${postId}`);
         const text = textInput.value.trim();
       
         if (!text) return; 
@@ -256,7 +276,7 @@
           textInput.value = '';
           let commentsCountElement = document.getElementById(`length-${postId}`)
           commentsCountElement.textContent = data.commentsCount;
-      }
+        }
       }
       
       

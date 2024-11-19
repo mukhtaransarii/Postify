@@ -35,6 +35,8 @@ function updateToken(user, existingToken) {
       pfp: user.pfp,
       username: user.username,
       email: user.email,
+      following: user.following,
+      followers: user.followers,
     };
     
     const newToken = JWT.sign(newPayload, secret);

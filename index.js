@@ -19,6 +19,7 @@ const followRoute = require('./routes/Follow.js')
 const updateModelRoute = require('./routes/UpdateModel.js')
 const searchAllUserRoute = require('./routes/searchAllUser.js')
 const noteRoute = require('./routes/note.js')
+const passwordChangeRoute = require('./routes/passwordChange.js')
 
 //database connection code
 mongoose.connect(process.env.db)
@@ -84,6 +85,12 @@ app.use('/:username/note', protectRoute, (req, res, next) => {
   if (req.user.username !== username) return res.send('Unauthorized access')
   next();
 }, noteRoute);
+
+app.use('/:username/password-change', protectRoute, (req, res, next) => {
+  const { username } = req.params;
+  if (req.user.username !== username) return res.send('Unauthorized access')
+  next();
+}, passwordChangeRoute);
 
 
 app.listen(3000, () => console.log('Server is running on PORT : 3000'))

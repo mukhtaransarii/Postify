@@ -14,7 +14,9 @@ body {
     background-color: #f5f5f5;
     font-family: RGFONT;
 }
-
+hr{
+  
+}
 ul{
   width: 100%;
 }
@@ -29,6 +31,7 @@ ul li{
 
 ul #logout{
   color: red;
+  border-top: 0.5px solid #000;
 }
 
 ul #deleteAccount{

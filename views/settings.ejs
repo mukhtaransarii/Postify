@@ -11,10 +11,8 @@
 <body>
     <ul>
       <li><i class="fa-solid fa-shield-alt"></i> Privacy and Security</li>
-      <li><i class="fa-solid fa-lock"></i> Lock Account</li>
-      <li><i class="fa-solid fa-key"></i> Change Password</li>
-      <li><i class="fa-solid fa-fingerprint"></i> Fingerprint Authentication</li>
-      <hr>
+      <li onclick="location.href='/<%=currentUser.username%>/password-change'"><i class="fa-solid fa-key"></i> Change Password</i>
+
       <li onclick="logout()" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</i>
       <li id="deleteAccount"><i class="fa-solid fa-trash"></i> Delete Account</i>
     </ul>

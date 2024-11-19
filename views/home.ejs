@@ -4,21 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/css/home.css">
   <title></title>
 </head>
 <body>
     <%- include('navbarAbsolute') %>
-
+    
+    <div id="PostsNav">
+      <h2>Following Posts</h2>
+    </div>
+    <hr>
+    
     <ul id="all-post-ul-container">
          <% post.map(item => { %>
             <div id="<%=item._id%>" class="POSTMAINCONTAINER"> 
               <!-- 1 -->         
               <div class="POSTHEADER">
-                 <div class="userInfo">
-                      <img src="<%=user.pfp%>" style="width: 40px; height: 40px; border-radius: 50%">
+                 <div class="userInfo" onclick="location.href='/<%=item.createdBy.username%>'">
+                      <img src="<%=item.createdBy.pfp%>" style="width: 40px; height: 40px; border-radius: 50%">
                       <div class="names">
-                         <p><%=user.username%>
-                          <% if (user.isVerified) { %>
+                         <p><%=item.createdBy.username%>
+                          <% if (item.createdBy.isVerified) { %>
                             <img src="/icon/blueTick.png" style="width: 17px">
                           <% } %>
                          </p>
@@ -56,7 +62,7 @@
               <div class="COMENTCONTAINER" id="comments-<%=item._id%>">
                   <ul class="ALLCOMMENTS" id="comments-section-<%= item._id %>">
                     <% item.comments.forEach(comment => { %>
-                      <li id="comment-<%= comment._id %>"> 
+                      <li id="comment-<%= comment._id %>" onclick="location.href='/<%=comment.commentedBy.username%>'"> 
                          <div>
                             <img src="<%= comment.commentedBy.pfp %>" style="height:35px; width:35px; border-radius:50%">
                             <div>
@@ -69,7 +75,7 @@
                               <p><%= comment.text %></p>
                             </div>
                          </div>
-                         <% if (currentUser._id == item.createdBy || currentUser._id == comment.commentedBy._id) { %>
+                         <% if (String(currentUser._id) == String(comment.commentedBy._id)) { %>
                              <button onclick="deleteComment('<%= comment._id %>')" id="postDeleteBtn">•••</button>
                          <% } %>
                       </li>
@@ -77,7 +83,7 @@
                   </ul>
                   
                   <div class="commentSendFrom">
-                    <input type="text" id="textComment"  placeholder="Write Comment..." required>
+                    <input type="text" id="textComment-<%=item._id%>"  placeholder="Write Comment..." required>
                     <button onclick="commentPush('<%=currentUser._id%>', '<%=item._id%>')">Send</button>
                  </div>
                   
@@ -85,5 +91,100 @@
             </div>
          <% }) %> 
      </ul>
+     
+     
+     <script>
+        
+        function commentShowToggle(postId) {
+          const COMENTCONTAINER = document.getElementById(`comments-${postId}`)
+          COMENTCONTAINER.classList.toggle('commentShow')
+        }
+        
+        
+        async function toggleLike(postId, userId) {
+           const response = await fetch(`/lc/like/${postId}/${userId}`, {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'}
+            });
+            if (response.ok) {
+              const data = await response.json();
+              
+              const likeCountElement = document.getElementById(`like-count-${postId}`);
+              const likeLogo = document.getElementById(`like-logo-${postId}`);
+              if (likeCountElement){
+                 likeCountElement.textContent = data.likes;
+              }
+              
+              // Update the heart icon based on like status
+              if (data.isLiked) {
+                likeLogo.className = 'fa fa-heart redHeart'; // Change to filled heart
+              } else {
+                likeLogo.className = 'fa-regular fa-heart'; // Change to empty heart
+              }
+            }
+        }
+        
+        
+        async function deleteComment(commentId) {
+          const response = await fetch(`/delete/${commentId}`, {
+            method: 'POST',
+          });
+
+          if (response.ok) {
+              const data = await response.json()
+              const commentElement = document.getElementById(`comment-${commentId}`);
+              if (commentElement) { 
+                  const confirmDelete = confirm('Delete this comment?');
+                  if (confirmDelete) {
+                      commentElement.remove()
+                  }
+               } 
+           } 
+        }
+        
+        
+        async function commentPush(userId, postId) {
+        const textInput = document.getElementById(`textComment-${postId}`);
+        const text = textInput.value.trim();
+      
+        if (!text) return; 
+      
+        const response = await fetch(`/lc/comment/${userId}/${postId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          const newComment = data.comment;
+          
+          const ul = document.getElementById(`comments-section-${postId}`);
+          ul.innerHTML += `
+                <li id="comment-${newComment._id}">
+                  <div>
+                    <img src="${newComment.commentedBy.pfp}" style="height:35px; width:35px; border-radius:50%">
+                    <div>
+                      <strong>${newComment.commentedBy.username}
+                        ${newComment.commentedBy.isVerified ? `<img src="/icon/blueTick.png" style="width: 17px; margin-top: 2px">` : ''}
+                        <span style="font-size:10px; font-weight:500; color: #888;">
+                          ${new Date(newComment.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                        </span>
+                    </strong>
+                      <p>${newComment.text}</p>
+                    </div>
+                  </div>
+                  ${newComment.commentedBy._id === userId ? `<button onclick="deleteComment('${newComment._id}')" id="postDeleteBtn">•••</button>` : ''}
+                </li>
+              `;
+
+          
+    
+          textInput.value = '';
+          let commentsCountElement = document.getElementById(`length-${postId}`)
+          commentsCountElement.textContent = data.commentsCount;
+      }
+      }
+     </script>
 </body>
 </html>

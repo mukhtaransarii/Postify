@@ -51,7 +51,7 @@ router.patch('/:id', upload.single('pfp'), async (req, res) => {
   );
   
   const newToken = updateToken(updatedUser, existingToken);
-  res.cookie('token', newToken, { httpOnly: true, secure: true, maxAge: 3600000 });
+  res.cookie('token', newToken, { httpOnly: true, secure: true, maxAge: 1000 * 60 * 60 * 24 * 365 * 10 });
 
   res.redirect(`/${updatedUser.username}`);
 });

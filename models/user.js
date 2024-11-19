@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
       type: String,
       default:''
     },
+    phone:{
+      type: Number,
+      default: ''
+    },
     pfp:{
       type: String,
       default: '/pfp/default_pfp.jpeg'
@@ -63,11 +67,11 @@ const userSchema = new mongoose.Schema({
 // Hash the password before saving the user
 userSchema.pre('save', function (next) {
     if (this.isModified('password')) {
-       const salt = randomBytes(16).toString('hex')
+      const salt = randomBytes(16).toString('hex')
        
-       const hash = createHmac('sha256', salt)
-       .update(this.password)
-       .digest('hex')
+      const hash = createHmac('sha256', salt)
+      .update(this.password)
+      .digest('hex')
        
       this.salt = salt;
       this.password = hash
@@ -90,6 +94,6 @@ userSchema.static('mathPasswordAndCreateToken', async function(username, passwor
   return token
 })
 
-// Create and export the User model
+
 const User = mongoose.model('user', userSchema);
 module.exports = User;
