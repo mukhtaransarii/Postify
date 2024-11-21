@@ -8,7 +8,8 @@ router.get('/', (req, res) => {
     secure: true, 
     path: '/'
   });
-  res.status(204).end(); 
+  const referer = req.headers.referer || '/login';
+  res.redirect(referer); 
 });
 
 module.exports = router

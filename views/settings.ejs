@@ -51,9 +51,6 @@
           const confirmLogout = confirm('Are you sure you want to logout?');
           if (confirmLogout) {
             window.location = '/<%=currentUser.username%>/logout';
-            setTimeout(() => {
-              window.location.reload();
-            }, 200);
           }
         }
 
