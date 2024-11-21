@@ -1,32 +1,31 @@
-const express = require('express')
-const router = express.Router()
-const User = require('../models/user.js')
+require('dotenv').config();
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user.js');
 const { updateToken } = require('../service/auth.js');
 
+// Cloudinary setup
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
 
-// Set up Multer storage
-const storage = multer.diskStorage({
-  destination: async (req, file, cb) => {
-    const user = await User.findOne({ _id: req.params.id });
-    const username = user.username;
+// Set up Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-    const uploadPath = path.join(__dirname, '../public/uploads', username);
-
-    // Create directory if it doesn't exist
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
+// Set up Multer storage with Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'uploads',  // Optional, set a folder in Cloudinary
+    allowed_formats: ['jpg', 'png', 'jpeg'],  // Allowed file formats
   },
 });
-const upload = multer({ storage });
+
+const upload = multer({ storage: storage });
 
 // Render Update Profile EJS
 router.get('/:id', async (req, res) => {
@@ -35,21 +34,24 @@ router.get('/:id', async (req, res) => {
   res.render('profileUpdate', { user });
 });
 
-// Patch : GETING UPDATE DATA FROM EJS AND UPDATE IT.
+// Patch: Update profile picture and other data
 router.patch('/:id', upload.single('pfp'), async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
   const existingToken = req.cookies.token;
 
   const user = await User.findOne({ _id: id });
-  if (req.file)  updates.pfp = `/uploads/${user.username}/${req.file.filename}`
+  if (req.file) {
+    // If file uploaded, save the Cloudinary URL
+    updates.pfp = req.file.path;
+  }
 
   const updatedUser = await User.findOneAndUpdate(
     { _id: id },
     { $set: updates },
     { new: true, runValidators: true }
   );
-  
+
   const newToken = updateToken(updatedUser, existingToken);
   res.cookie('token', newToken, { httpOnly: true, secure: true, maxAge: 1000 * 60 * 60 * 24 * 365 * 10 });
 
