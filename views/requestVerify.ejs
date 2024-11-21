@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request for Verify</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 350px;;
+    }
+
+    .form-container h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    .form-group input[readonly] {
+      background-color: #e9ecef;
+      cursor: not-allowed;
+    }
+
+    .form-group textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    .form-group button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #000;
+      color: #fff;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="form-container">
+    <h1>Request for Verify</h1>
+    <form>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= currentUser.name %>" readonly />
+      </div>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="<%= currentUser.username %>" readonly />
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<%= currentUser.email %>" readonly />
+      </div>
+      <div class="form-group">
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit">Send</button>
+      </div>
+    </form>
+  </div>
+  
+ <script src="https://smtpjs.com/v3/smtp.js"></script>
+ <script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      const smptKey = '<%=smptKey%>'
+      
+      
+      // Send email using SMTP.js
+      Email.send({
+        SecureToken: smptKey, // Replace with your SMTPJS Secure Token
+        To: "mukhtar.alam458546@gmail.com", // Replace with recipient email
+        From: "mukhtar.alam458546@gmail.com",  // The email from which it is sent
+        Subject: "Request Verify BLOGAPP",
+        Body: `Name: ${name}<br>
+               Username: ${username}<br>
+               Email: ${email}<br>
+               Message:${message}`,
+      })
+      .then(function (message) {
+        alert("Email sent successfully!");
+      })
+      .catch(function (error) {
+        alert("Failed to send email. Error: " + error);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override');
 const protectRoute = require('./service/protectRoute.js')
+const { Server } = require('socket.io');
+const handleSocket = require('./routes/socketHandler.js'); 
 require('dotenv').config()
 
 const staticRoute = require('./routes/static.js')
@@ -20,6 +22,8 @@ const updateModelRoute = require('./routes/UpdateModel.js')
 const searchAllUserRoute = require('./routes/searchAllUser.js')
 const noteRoute = require('./routes/note.js')
 const passwordChangeRoute = require('./routes/passwordChange.js')
+const messageRoute = require('./routes/message.js')
+const requestverifyRoute = require('./routes/requestVerify.js')
 
 //database connection code
 mongoose.connect(process.env.db)
@@ -34,13 +38,13 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(methodOverride('_method'))
 
-
 // Routes
 app.use('/lc', likeAndCommentRoute)
 app.use('/delete', commentDeleteRoute)
 app.use('/verify', verifyBlueTickRoute)
 app.use('/follow', followRoute)
 app.use('/updateModel', updateModelRoute)
+app.use('/message', messageRoute)
 
 // Dynamic Route
 app.use('/', staticRoute)
@@ -92,5 +96,17 @@ app.use('/:username/password-change', protectRoute, (req, res, next) => {
   next();
 }, passwordChangeRoute);
 
+app.use('/:username/request-verify', protectRoute, (req, res, next) => {
+  const { username } = req.params;
+  if (req.user.username !== username) return res.send('Unauthorized access')
+  next();
+}, requestverifyRoute);
 
-app.listen(3000, () => console.log('Server is running on PORT : 3000'))
+
+//Socket
+const server = app.listen(process.env.PORT, () => {
+  console.log(`Server is running on ${process.env.PORT}`);
+});
+
+const io = new Server(server);
+handleSocket(io);

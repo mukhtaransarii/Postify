@@ -36,6 +36,18 @@
             <label for="bio">Bio</label>
             <textarea id="bio" name="bio" placeholder="Write something about yourself" rows="4" required><%= user.bio %></textarea>
             </div>
+            
+            <!-- Email Field -->
+            <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="e.g. ii.bbs@gmail.com" value="<%= user.email %>" required>
+            </div>
+            
+            <!-- Phone Field -->
+            <div>
+            <label for="phone">Phone</label>
+            <input type="number" id="phone" name="phone" placeholder="e.g. 8287XXXXXX" value="<%= user.phone %>">
+            </div>
     
             <!-- Submit Button -->
             <button type="submit" class="update-button">Update Profile</button>

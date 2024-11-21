@@ -11,86 +11,100 @@
     <%- include('navbarAbsolute') %>
     
     <div id="PostsNav">
-      <h2>Following Posts</h2>
+      <div id="LOGO" style="height: 22px; width: 22px; display: flex">
+        <div style="background: #CCF630; height: 100%; width: 70%"></div>
+        <div style="background: #333; height: 100%; width: 30%"></div>
+      </div>
+      <h2>Postify</h2>
     </div>
     <hr>
     
     <ul id="all-post-ul-container">
-         <% post.map(item => { %>
-            <div id="<%=item._id%>" class="POSTMAINCONTAINER"> 
-              <!-- 1 -->         
-              <div class="POSTHEADER">
-                 <div class="userInfo" onclick="location.href='/<%=item.createdBy.username%>'">
-                      <img src="<%=item.createdBy.pfp%>" style="width: 40px; height: 40px; border-radius: 50%">
-                      <div class="names">
-                         <p><%=item.createdBy.username%>
-                          <% if (item.createdBy.isVerified) { %>
-                            <img src="/icon/blueTick.png" style="width: 17px">
-                          <% } %>
-                         </p>
-                         <span><%=item.createdAtFormatted%></span>
-                      </div>
-                 </div>
-                 <div class="POSTDELETBUTTON">
-                    <% if (currentUser._id == item.createdBy) { %>
-                        <form action="/<%=currentUser.username%>/delete/<%=item._id%>" method="post" onsubmit="return confirm('Are you sure you want to delete this post?')")>
-                           <button type="submit" id="postDeleteBtn">•••</button>
-                        </form>
+      <% if (post.length > 0) { %>
+        <% post.map(item => { %>
+          <div id="<%= item._id %>" class="POSTMAINCONTAINER"> 
+            <!-- 1 -->         
+            <div class="POSTHEADER">
+              <div class="userInfo" onclick="location.href='/<%= item.createdBy.username %>'">
+                <img src="<%= item.createdBy.pfp %>" style="width: 40px; height: 40px; border-radius: 50%">
+                <div class="names">
+                  <p>
+                    <%= item.createdBy.username %>
+                    <% if (item.createdBy.isVerified) { %>
+                      <img src="/icon/blueTick.png" style="width: 17px">
                     <% } %>
-                 </div>
-              </div>
-              
-              <!-- 2 -->      
-              <div class="titleAndImagePost">
-                <img src="<%= item.imageUrl%>">
-                
-                 <div class="post-actions">
-                    <div id="like-btn-<%= item._id %>" class="like-btn" onclick="toggleLike('<%= item._id %>', '<%= currentUser._id %>')">
-                      <i class="<%= item.likes.includes(currentUser._id) ? 'fa fa-heart redHeart' : 'fa-regular fa-heart' %>" id="like-logo-<%= item._id %>"></i>
-                      <span id="like-count-<%= item._id %>"><%= item.likes.length %></span>
-                    </div>
-                    <div id="comment-btn-<%= item._id %>" onclick="commentShowToggle('<%=item._id%>')">
-                      <i class="fa-regular fa-comment"></i>
-                      <span id="length-<%=item._id%>"><%=item.comments.length%></span>
-                    </div>
+                  </p>
+                  <span><%= item.createdAtFormatted %></span>
                 </div>
-                
-                <p><%- item.title.replace(/\n/g, '<br>') %></p>
               </div>
-              
-              <!-- 3 -->        
-              <div class="COMENTCONTAINER" id="comments-<%=item._id%>">
-                  <ul class="ALLCOMMENTS" id="comments-section-<%= item._id %>">
-                    <% item.comments.forEach(comment => { %>
-                      <li id="comment-<%= comment._id %>" onclick="location.href='/<%=comment.commentedBy.username%>'"> 
-                         <div>
-                            <img src="<%= comment.commentedBy.pfp %>" style="height:35px; width:35px; border-radius:50%">
-                            <div>
-                              <strong><%= comment.commentedBy.username %>
-                                 <% if (comment.commentedBy.isVerified) { %>
-                                    <img src="/icon/blueTick.png" style="width: 17px">
-                                 <% } %>
-                                 <span style="font-size:10px; font-weight:500; color: #888;"><%=comment.createdAtFormatted%></span>
-                              </strong>
-                              <p><%= comment.text %></p>
-                            </div>
-                         </div>
-                         <% if (String(currentUser._id) == String(comment.commentedBy._id)) { %>
-                             <button onclick="deleteComment('<%= comment._id %>')" id="postDeleteBtn">•••</button>
-                         <% } %>
-                      </li>
-                    <% }) %>
-                  </ul>
-                  
-                  <div class="commentSendFrom">
-                    <input type="text" id="textComment-<%=item._id%>"  placeholder="Write Comment..." required>
-                    <button onclick="commentPush('<%=currentUser._id%>', '<%=item._id%>')">Send</button>
-                 </div>
-                  
+              <div class="POSTDELETBUTTON">
+                <% if (currentUser._id == item.createdBy._id) { %>
+                  <form action="/<%= currentUser.username %>/delete/<%= item._id %>" method="post" onsubmit="return confirm('Are you sure you want to delete this post?')">
+                    <button type="submit" id="postDeleteBtn">•••</button>
+                  </form>
+                <% } %>
               </div>
             </div>
-         <% }) %> 
-     </ul>
+            
+            <!-- 2 -->      
+            <div class="titleAndImagePost">
+              <img src="<%= item.imageUrl %>">               
+              <p><%- item.title.replace(/\n/g, '<br>').replace(/#(\w+)/g, '<span style="color: #179CF0;">#$1</span>') %></p>
+
+              
+              <div class="post-actions">
+                <div id="like-btn-<%= item._id %>" class="like-btn" onclick="toggleLike('<%= item._id %>', '<%= currentUser._id %>')">
+                  <i class="<%= item.likes.includes(currentUser._id) ? 'fa fa-heart redHeart' : 'fa-regular fa-heart' %>" id="like-logo-<%= item._id %>"></i>
+                  <span id="like-count-<%= item._id %>"><%= item.likes.length %></span>
+                </div>
+                <div id="comment-btn-<%= item._id %>" onclick="commentShowToggle('<%= item._id %>')">
+                  <i class="fa-regular fa-comment"></i>
+                  <span id="length-<%= item._id %>"><%= item.comments.length %></span>
+                </div>
+              </div>
+              
+            </div>
+            
+            <!-- 3 -->        
+            <div class="COMENTCONTAINER" id="comments-<%= item._id %>">
+              <ul class="ALLCOMMENTS" id="comments-section-<%= item._id %>">
+                <% item.comments.forEach(comment => { %>
+                  <li id="comment-<%= comment._id %>" onclick="location.href='/<%= comment.commentedBy.username %>'"> 
+                    <div>
+                      <img src="<%= comment.commentedBy.pfp %>" style="height:35px; width:35px; border-radius:50%">
+                      <div>
+                        <strong>
+                          <%= comment.commentedBy.username %>
+                          <% if (comment.commentedBy.isVerified) { %>
+                            <img src="/icon/blueTick.png" style="width: 17px">
+                          <% } %>
+                          <span style="font-size:10px; font-weight:500; color: #888;"><%= comment.createdAtFormatted %></span>
+                        </strong>
+                        <p><%= comment.text %></p>
+                      </div>
+                    </div>
+                    <% if (String(currentUser._id) == String(comment.commentedBy._id)) { %>
+                      <button onclick="deleteComment('<%= comment._id %>')" id="postDeleteBtn">•••</button>
+                    <% } %>
+                  </li>
+                <% }) %>
+              </ul>
+              
+              <div class="commentSendFrom">
+                <input type="text" id="textComment-<%= item._id %>" placeholder="Write Comment..." required>
+                <button onclick="commentPush('<%= currentUser._id %>', '<%= item._id %>')">Send</button>
+              </div>
+              
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="no-posts-message">
+          <p>People followed by you haven't upload yet. </p>
+        </div>
+      <% } %>
+    </ul>
+
      
      
      <script>

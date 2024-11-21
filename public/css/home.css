@@ -25,7 +25,12 @@ hr{
 #PostsNav{
   background: #fff;
   padding: 10px 20px;
-  font-size: 0.85em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#PostsNav h2{
+  font-size: 20px;
 }
 
 /*FOR POST*/
@@ -97,7 +102,7 @@ hr{
 .post-actions {
     display: flex;
     gap: 30px;
-    padding: 3px 10px;
+    padding: 3px 3px 20px 10px;
     background-color: #fff;
 }
 
@@ -178,4 +183,21 @@ hr{
   background: white;
   border: none;
   cursor: pointer;
+}
+
+.no-posts-message{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  font-weight: 500;
+  color: gray;
+}
+
+@media (max-width: 2024px) and (min-width: 769px) {
+   #all-post-ul-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 }

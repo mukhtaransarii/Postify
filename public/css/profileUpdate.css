@@ -85,7 +85,7 @@ form label {
     color: #222;
 }
 
-form input[type="text"],
+form input,
 form textarea {
     width: 100%;
     padding: 10px;
@@ -96,7 +96,7 @@ form textarea {
     margin-top: 5px;
 }
 
-form input[type="text"]:focus,
+form input:focus,
 form textarea:focus {
     border-color: #000;
     outline: none;

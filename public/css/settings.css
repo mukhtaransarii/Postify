@@ -1,6 +1,14 @@
-font-face{
+@font-face{
+  font-family: NRFONT;
+  src: url(../font/NeueMontreal-Light.woff);
+}
+@font-face{
   font-family: RGFONT;
   src: url(../font/NeueMontreal-Regular.woff);
+}
+@font-face{
+  font-family: GROTESK;
+  src: url(../font/Grotesk.woff);
 }
 
 * {
@@ -11,11 +19,8 @@ font-face{
 
 body {
     height: 100vh;
-    background-color: #f5f5f5;
+    background-color: #fff;
     font-family: RGFONT;
-}
-hr{
-  
 }
 ul{
   width: 100%;
@@ -31,15 +36,41 @@ ul li{
 
 ul #logout{
   color: red;
-  border-top: 0.5px solid #000;
+  background: #f0f0f0;
 }
 
-ul #deleteAccount{
-  color: #666;
+ul li:nth-last-child(-n+3) {
+background: #f0f0f0;
 }
+
 
 
 ul li i{
   width: 25px;
 }
 
+footer{
+  border-top: 3px solid #000;
+  background: #fff;
+  padding: 30px 20px 20px 20px;
+}
+footer #footerHead h1{
+  font-family: GROTESK;
+  font-size: 55px;
+  line-height: 42px;
+}
+
+footer #logoContainer{
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+footer #logoContainer h1{
+  font-family: NRFONT;
+  font-size: 40px;
+}
+
+footer #links a, p{
+  color: grey;
+}

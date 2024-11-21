@@ -2,6 +2,10 @@
   font-family: RGFONT;
   src: url(../font/NeueMontreal-Regular.woff);
 }
+@font-face{
+  font-family: NRFONT;
+  src: url(../font/NeueMontreal-Light.woff);
+}
 
 * {
     margin: 0;
@@ -35,15 +39,24 @@ body {
 
 nav{
   display: flex;
-  justify-content: end;
-  gap: 20px;
+  justify-content: space-between;
   align-items: center;
   background-color: #fff;
   padding: 5px 20px;
 }
-nav img:hover{
-  color: #1da1f2;
+nav #settingContainer{
+  display: flex;
+  gap: 20px;
 }
+nav #logoContainer{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+nav div h2{
+  font-size: 20px;
+}
+
 .noteInputForm{
   display: flex;
   align-items: center;
@@ -156,7 +169,7 @@ nav img:hover{
   font-size: 0.8em;
 }
 #noteContainer p{
-  color: #1da1f2;
+  color: #000;
 }
 
 .followers {
@@ -171,7 +184,7 @@ nav img:hover{
     margin-top: 20px;
 }
 
-.createPost-btn, .editProfile-btn , #follow-btn{
+.createPost-btn, .editProfile-btn , #follow-btn, #message-btn{
     flex: 1;
     padding: 10px;
     border-radius: 10px;
@@ -191,7 +204,7 @@ nav img:hover{
     transition: background-color 0.3s ease;
 }
 
-.createPost-btn, #follow-btn {
+.createPost-btn, #follow-btn, #message-btn {
     background-color: #000;
     color: #fff;
 }
@@ -297,7 +310,7 @@ hr{
 .post-actions {
     display: flex;
     gap: 30px;
-    padding: 3px 10px;
+    padding: 3px 3px 20px 10px;
     background-color: #fff;
 }
 
@@ -306,7 +319,6 @@ hr{
   align-items: center;
   gap: 8px;
 }
-
 .post-actions>div>i {
     font-size: 25px;
 }

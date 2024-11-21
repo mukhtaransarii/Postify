@@ -7,7 +7,6 @@ const moment = require('moment');
 router.post('/',protectRoute, async (req, res) => {
   const currentUser = req.user
   const { content } = req.body;
-  
   const user = await User.findById(currentUser._id);
   
   if (user) {
@@ -18,7 +17,6 @@ router.post('/',protectRoute, async (req, res) => {
     };
     await user.save();
   }
- 
   const referer = req.headers.referer || `/${currentUser.username}`;
   res.redirect(referer);
 });
@@ -43,7 +41,6 @@ const clearExpiredNotes = async () => {
     console.error('Error clearing expired notes:', err);
   }
 };
-
 setInterval(clearExpiredNotes, 3600000); 
 
 

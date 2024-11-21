@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chat</title>
+  <link rel="stylesheet" href="/css/message.css"> 
+</head>
+<body>
+  <div class="chat-container">
+    <!-- Header with user info -->
+    <header class="chat-header">
+      <img src="<%= user.pfp %>" alt="<%= user.username %>'s profile picture" class="user-pfp">
+      <h2 class="user-name"><%= user.username %></h2>
+    </header>
+
+    <!-- Messages list -->
+    <ul id="messages" class="messages-list">
+      <!-- Existing messages can be dynamically added here -->
+    </ul>
+
+    <!-- Input form -->
+    <form id="message-form" class="message-form">
+      <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+      <button type="submit" class="send-button">Send</button>
+    </form>
+  </div>
+
+  <script>
+    // Append a message to the messages list
+    const form = document.getElementById('message-form');
+    const input = document.getElementById('message-input');
+    const messages = document.getElementById('messages');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (input.value) {
+        const messageElement = document.createElement('p');
+        messageElement.textContent = input.value;
+        messages.appendChild(messageElement);
+        input.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

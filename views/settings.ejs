@@ -10,22 +10,53 @@
 </head>
 <body>
     <ul>
-      <li><i class="fa-solid fa-shield-alt"></i> Privacy and Security</li>
+      
       <li onclick="location.href='/<%=currentUser.username%>/password-change'"><i class="fa-solid fa-key"></i> Change Password</i>
-
+      <li onclick="location.href='/<%=currentUser.username%>/request-verify'"><i class="fas fa-hand-paper"></i> Request for Blue Tick</i>
+      
+      <li><i class="fas fa-question-circle"></i> Help</i>
+      <li><i class="fas fa-exclamation-triangle"></i> Report and Feedback</i>
       <li onclick="logout()" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</i>
-      <li id="deleteAccount"><i class="fa-solid fa-trash"></i> Delete Account</i>
     </ul>
-   
+    
+    
+    <footer>
+      <div id="footerHead">
+        <h1>BBS</h1>
+        <h1>CEO && OWNER</h1>
+        <h1>MUKHTAR ALAM</h1>
+      </div>
+      
+      <div id="logoContainer">
+        <div id="LOGO" style="height: 40px; width: 40px; display: flex">
+          <div style="background: #CCF630; height: 100%; width: 70%"></div>
+          <div style="background: #333; height: 100%; width: 30%"></div>
+        </div>
+        <h1>Postify</h1>
+      </div>
+      
+      <div id="links">
+        <p>Mukhtar Alam © Nov 2024</p>
+        <a href="mailto:mukhtar.alam458546@gmail.com">mukhtar.alam458546@gmail.com</a>
+        <a href="https://linkedin.com/in/iibbs">Linkedin</a>
+        <a href="https://github.com/mukhtaransarii">Github</a>
+      </div>
+      
+    </footer>
+  
+  
     
    <script>
         function logout() {
-          window.location = '/<%=currentUser.username%>/logout'
-          setTimeout(() => {
-            window.location.reload();
-          }, 200);
+          const confirmLogout = confirm('Are you sure you want to logout?');
+          if (confirmLogout) {
+            window.location = '/<%=currentUser.username%>/logout';
+            setTimeout(() => {
+              window.location.reload();
+            }, 200);
+          }
         }
-      
+
 </script> 
 
 </body>

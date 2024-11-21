@@ -20,11 +20,14 @@
         <!-- Followers List -->
         <div id="followersList" class="list active">
           <% followers.map(follower => { %>
-            <li class="user-item">
+            <li class="user-item" onclick="location.href='/<%=follower.username%>'">
               <img src="<%= follower.pfp %>" alt="Profile Picture" class="profile-pic">
               <div class="user-info">
-                <span class="name"><%= follower.name %></span>
-                <span class="username">@<%= follower.username %></span>
+                <span class="name"><%= follower.name %></span><span class="username" style="display: flex; align-items: center; gap: 2px">@<%= follower.username %>
+                   <% if (follower.isVerified) { %>
+                      <img src="/icon/blueTick.png" style="width: 17px; margin-top: 3px">
+                   <% } %>
+                </span>
               </div> 
                  <% if(currentUser._id == _id) { %>
                     <form action="/follow/<%=follower._id%>/remove-follower" method="POST">

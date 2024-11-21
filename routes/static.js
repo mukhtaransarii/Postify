@@ -25,11 +25,7 @@ router.get('/',protectRoute, async (req, res) => {
       comment.createdAtFormatted = moment(comment.createdAt).fromNow();
     });
   });
-  
-  console.log('following post', post)
-  console.log('following user', currentUser.following)
-  console.log('following user', currentUser)
-  
+
   res.render('home', {currentUser, post})
 })
 
@@ -91,8 +87,10 @@ router.post('/login', async (req, res) => {
 
   if (!token) return res.status(401).render('login', { error: 'Invalid username or password' });
 
-  console.log('tokenCreated: ', token);
-  res.cookie('token', token).redirect(`/${username}`);
+  res.cookie('token', token, {
+    maxAge: Date.now() + 3600000, 
+    httpOnly: true, 
+  }).redirect(`/${username}`);
 });
 
 

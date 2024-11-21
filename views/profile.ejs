@@ -12,10 +12,19 @@
   <div id="profileWrapper">
     <div id="toast" class="toast"></div>
     <nav>
+      <div id="logoContainer">
+        <div id="LOGO" style="height: 22px; width: 22px; display: flex">
+          <div style="background: #CCF630; height: 100%; width: 70%"></div>
+          <div style="background: #333; height: 100%; width: 30%"></div>
+        </div>
+        <h2>Postify</h2>
+      </div>
+      <div id="settingContainer">
       <% if (currentUser._id == user._id) { %>
         <img onclick="noteFormToggle()"  src="/icon/sticky-note-add-line.svg" style="width: 20px; height: 20px">
         <img onclick="window.location='<%=currentUser.username%>/settings'" src="/icon/settings-2-line.svg" style="width: 20px; height: 20px">
       <% } %>
+      </div>
     </nav>
     <form class="noteInputForm" action="/<%=currentUser.username%>/note" method="POST">
       <textarea name="content" id="autoExpand" placeholder="Write note here..."></textarea>
@@ -66,6 +75,7 @@
                   <% } else { %>
                       <button id="follow-btn" onclick="toggleFollow('<%= user.username %>')">Follow</button>
                   <% } %>
+                  <button id="message-btn" onclick="location.href='/message/<%=user.username%>'">Message</button>
             <% } %>
         </div>
     </div>
@@ -109,9 +119,11 @@
               <!-- 2 -->      
               <div class="titleAndImagePost">
                 <img src="<%= item.imageUrl%>">
+                <p><%- item.title.replace(/\n/g, '<br>').replace(/#(\w+)/g, '<span style="color: #179CF0;">#$1</span>') %></p>
+
                 
                  <div class="post-actions">
-                    <div id="like-btn-<%= item._id %>" class="like-btn" onclick="toggleLike('<%= item._id %>', '<%= currentUser._id %>')">
+                    <div id="like-btn-<%= item._id %>" class="like-btn" onclick="toggleLike('<%= item._id %>', '<%= currentUser._id %>')" >
                       <i class="<%= item.likes.includes(currentUser._id) ? 'fa fa-heart redHeart' : 'fa-regular fa-heart' %>" id="like-logo-<%= item._id %>"></i>
                       <span id="like-count-<%= item._id %>"><%= item.likes.length %></span>
                     </div>
@@ -121,7 +133,6 @@
                     </div>
                 </div>
                 
-                <p><%- item.title.replace(/\n/g, '<br>') %></p>
               </div>
               
               <!-- 3 -->        
@@ -188,7 +199,8 @@
         function noteFormToggle() {
           document.querySelector('.noteInputForm').classList.toggle('formShow')
         }
-
+        
+    
         async function toggleLike(postId, userId) {
            const response = await fetch(`/lc/like/${postId}/${userId}`, {
               method: 'POST',
@@ -211,6 +223,8 @@
               }
             }
         }
+        
+        
         
         function commentShowToggle(postId) {
           const COMENTCONTAINER = document.getElementById(`comments-${postId}`)

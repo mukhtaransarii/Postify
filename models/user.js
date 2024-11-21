@@ -59,7 +59,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null,
       }
-    }
+    },
+    messages: [
+    
+    ]
 
 }, { timestamps: true });
 
