@@ -4,8 +4,7 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override');
 const protectRoute = require('./service/protectRoute.js')
-const { Server } = require('socket.io');
-const handleSocket = require('./routes/socketHandler.js'); 
+const path = require('path')
 require('dotenv').config()
 
 const staticRoute = require('./routes/static.js')
@@ -31,8 +30,10 @@ mongoose.connect(process.env.db)
 .catch((e) => console.log('db connection errro : ',e))
 
 // Middlewares
-app.set('view engine', 'ejs')
-app.use(express.static('public'))
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cookieParser())
@@ -103,10 +104,4 @@ app.use('/:username/request-verify', protectRoute, (req, res, next) => {
 }, requestverifyRoute);
 
 
-//Socket
-const server = app.listen(process.env.PORT, () => {
-  console.log(`Server is running on ${process.env.PORT}`);
-});
-
-const io = new Server(server);
-handleSocket(io);
+module.exports = app;
